@@ -2,10 +2,11 @@
 
 ### Integrantes
 - Mikael Quinto Ramos
-- Abel
-- Carlos
-- Katty
-- Marcos
+- Abel ____ ____
+- Carlos ____ ____
+- Katty ____ ____
+- Marcos ____ ____
 
 #
 
+## Diseno
