@@ -30,7 +30,7 @@ export default function Register() {
     try {
       const nuevoUsuario = await UserService.createUser(userData);
       console.log('Usuario creado:', nuevoUsuario);
-      navigate('/login');
+      navigate('/mainPage');
     } 
     
     catch (error) {
