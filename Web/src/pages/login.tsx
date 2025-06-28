@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { findUser } from '../services/UserService'
@@ -51,36 +50,36 @@ export default function Login() {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    background: 'linear-gradient(270deg, #004aad, #66a3ff, #004aad)', // igual que antes, tu azul ↔ azul claro ↔ azul
-    backgroundSize: '400% 400%',                                    // menos “zoom” para un movimiento más suave
-    animation: 'gradientMove 12s ease infinite alternate',          // coincide con el @keyframes que te pasé
+    background: 'linear-gradient(270deg, #004aad, #66a3ff, #004aad)',
+    backgroundSize: '400% 400%',
+    animation: 'gradientMove 12s ease infinite alternate',
   },
 
   box: {
-    backgroundColor: '#f8f9fa',                // un blanco suave (en lugar de puro blanco) para no chocar con el fondo
+    backgroundColor: '#f8f9fa',
     padding: '2rem',
     borderRadius: '20px',
-    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.15)', // sombra algo más sutil
+    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.15)',
     width: '320px',
     textAlign: 'center' as const,
-    fontFamily: 'Inter, system-ui, sans-serif', // define tu fuente principal aquí
+    fontFamily: 'Inter, system-ui, sans-serif',
   },
 
   input: {
     width: '100%',
-    height: '36px',                             // un poco más alto para mejorar UX
+    height: '36px',
     backgroundColor: 'white',
-    border: '1px solid #ccc',                   // borde gris claro en vez de negro duro
+    border: '1px solid #ccc',
     borderRadius: '8px',
     textAlign: 'center' as const,
-    color: '#333',                               // texto más oscuro para mejor legibilidad
+    color: '#333',
     fontSize: '0.95rem',
   },
 
   button: {
     marginTop: '1.5rem',
     width: '100%',
-    backgroundColor: '#004aad',                 // tu color principal
+    backgroundColor: '#004aad',
     color: 'white',
     padding: '0.75rem',
     border: 'none',
@@ -92,7 +91,7 @@ export default function Login() {
   },
 
   buttonHover: {
-    backgroundColor: '#003580',                 // un 20% más oscuro para hover
+    backgroundColor: '#003580',
   },
 
   label: {
@@ -105,11 +104,13 @@ export default function Login() {
     margin: '0 auto 1rem',
     width: '180px',
     height: 'auto',
+    borderRadius: '12px',
   },
 
   title: {
-    color: '#004aad',
+    color: '#333',
     marginBottom: '1rem',
+    fontWeight: 'bold',
   },
 
   registerContainer: {
@@ -125,7 +126,7 @@ export default function Login() {
   },
 
   registerLink: {
-    color: '#004aad',                           // mismo azul que el botón
+    color: '#004aad',
     textDecoration: 'underline',
     cursor: 'pointer',
     fontSize: '0.85rem',
@@ -143,7 +144,7 @@ return (
     <div style={styles.background}>
       <div style={styles.box}>
         <form onSubmit={handleSubmit}>
-          <h2 style={styles.title}>Identifícate:</h2>
+          <h2 style={styles.title}>Login:</h2>
           <img src={logo} alt="logo" style={styles.logo} />
 
           <div>
@@ -159,12 +160,12 @@ return (
           </div>
 
           <div style={{ marginTop: '1rem' }}>
-            <label style={styles.label}>Nombre de usuario:</label><br />
+            <label style={styles.label}>Username:</label><br />
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="tu_usuario"
+              placeholder="username"
               required
               style={styles.input}
             />
