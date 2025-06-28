@@ -1,3 +1,4 @@
+@import "tailwindcss";
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -17,6 +18,18 @@
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+.animated-gradient {
+  animation: gradientMove 6s linear infinite;
+}
+
 
 @keyframes logo-spin {
   from {
@@ -38,5 +51,5 @@
 }
 
 .read-the-docs {
-  color: #888;
+  color: #333;
 }
