@@ -1,57 +1,50 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserService } from '../services/UserService'
 import logo from '../assets/logo.png';
 
+//Logica
 export default function Register() {
-  const [nombres, setNombres] = useState('');
-  const [apellidos, setApellidos] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
   const [dni, setDni] = useState('');
-  const [telefono, setTelefono] = useState('');
   const [email, setEmail] = useState('');
-  const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [sexo, setSexo] = useState('');
-  const [direccion, setDireccion] = useState('');
-  const [seguroSalud, setSeguroSalud] = useState(false);
-  const [estadoCivil, setEstadoCivil] = useState('');
-  const [tipoSangre, setTipoSangre] = useState('');
+  const [age, setAge] = useState('');
+  const [username, setUsername] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const pacienteData = {
-      apellidos,
-      direccion,
+    const userData = {
+      firstname,
+      lastname,
       dni,
       email,
-      nombres,
-      telefono,
-      fechaNacimiento,
-      sexo,
-      seguroSalud,
-      estadoCivil,
-      tipoSangre,
-      password: 'defaultPassword', 
+      age,
+      username,
+      password: 'defaultPassword',
     };
 
     try {
-      const pacienteCreado = await crearPaciente(pacienteData);
-      console.log('Paciente creado:', pacienteCreado);
-      navigate('/'); 
-    } catch (error) {
-      console.error('Error al registrar paciente:', error);
-      setErrorMessage('Hubo un error al registrar el paciente. Intenta nuevamente.');
+      const nuevoUsuario = await UserService.createUser(userData);
+      console.log('Usuario creado:', nuevoUsuario);
+      navigate('/login');
+    } 
+    
+    catch (error) {
+      console.error('Error al registrar usuario:', error);
+      setErrorMessage('Hubo un error al registrar. Intenta nuevamente.');
     }
   };
 
-  const handleRegisterMedico = () => {
-    navigate('/registerMedico'); 
-  };
   const handleRegisterRedirect = () => {
     navigate('/');
   };
 
+
+  // CSS
   const styles = {
     background: {
       height: '100vh',
@@ -61,18 +54,20 @@ export default function Register() {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      background: 'linear-gradient(270deg, #3364ff, #003366, #00cfff)',
-      backgroundSize: '600% 600%',
-      animation: 'backgroundAnimation 15s infinite alternate',
+      background: 'linear-gradient(270deg, #004aad, #66a3ff, #004aad)',
+      backgroundSize: '400% 400%',
+      animation: 'gradientMove 12s ease infinite alternate',
     },
+
     box: {
-      backgroundColor: 'white',
+      backgroundColor: '#f8f9fa',
       padding: '2rem',
       borderRadius: '20px',
       boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.15)',
       width: '640px',
       textAlign: 'center' as React.CSSProperties['textAlign'],
     },
+
     input: {
       width: '100%',
       height: '30px',
@@ -80,8 +75,9 @@ export default function Register() {
       border: '1px solid black',
       borderRadius: '10px',
       textAlign: 'center' as React.CSSProperties['textAlign'],
-      color: 'black',
+      color: '#333',
     },
+
     inputRow: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -90,6 +86,7 @@ export default function Register() {
       width: '100%',
       flexWrap: 'wrap' as React.CSSProperties['flexWrap'],
     },
+    
     inputHalf: {
       width: '100%',
       height: '35px',
@@ -100,51 +97,62 @@ export default function Register() {
       color: 'black',
       marginBottom: '1rem',
     },
+
     button: {
       marginTop: '1.5rem',
       width: '100%',
-      backgroundColor: '#3364ff',
+      backgroundColor: '#004aad',
       color: 'white',
-      padding: '0.5rem',
+      padding: '0.75rem',
       border: 'none',
       borderRadius: '10px',
       cursor: 'pointer',
     },
+
     label: {
-      color: 'black',
+      color: '#333',
       display: 'block',
       marginBottom: '0.2rem',
       fontSize: '1rem',
       textAlign: 'center' as const,
     },
+
     logo: {
-      display: 'block',
-      margin: '0 auto',
-      width: '150px',
-      height: 'auto',
-      marginBottom: '1rem',
-    },
+    display: 'block',
+    margin: '0 auto 1rem',
+    width: '180px',
+    height: 'auto',
+    borderRadius: '12px',
+  },
+
     title: {
       color: 'black',
+      marginBottom: '1rem',
+    fontWeight: 'bold',
     },
+
     loginContainer: {
       marginTop: '1rem',
       textAlign: 'center' as const,
     },
+
     loginText: {
       fontSize: '0.875rem',
       color: 'black',
     },
+
     loginLink: {
       fontSize: '0.875rem',
       color: '#3f6cfd',
       textDecoration: 'underline',
       cursor: 'pointer',
     },
+
     errorMessage: {
       color: 'red',
       marginTop: '1rem',
     },
+
     redirectButton: {
       position: 'absolute' as React.CSSProperties['position'],
       top: '20px',
@@ -156,16 +164,19 @@ export default function Register() {
       borderRadius: '5px',
       cursor: 'pointer',
     },
+
     registerContainer: {
       marginTop: '1rem',
       textAlign: 'center' as const,
     },
+
     registerText: {
       display: 'inline-block',
       marginRight: '0.5rem',
       color: 'black',
       fontSize: '0.87rem'
     },
+
     registerLink: {
       color: '#3f6cfd',
       textDecoration: 'underline',
@@ -174,178 +185,104 @@ export default function Register() {
     },
   };
 
-  return (
-    <div style={styles.background}>
-      <button style={styles.redirectButton} onClick={handleRegisterMedico}>
-        Registrar Medico
-      </button>
+return (
+  <div style={styles.background}>
+    <div style={styles.box}>
+      <form onSubmit={handleSubmit}>
+        <h2 style={styles.title}>Register:</h2>
+        <img src={logo} alt="logo" style={styles.logo} />
 
-      <div style={styles.box}>
-        <form onSubmit={handleSubmit}>
-          <h2 style={styles.title}>Regístrate como Paciente:</h2>
-          <img src={logo} alt="logo" style={styles.logo} />
-
-          {/* Inputs en dos columnas */}
-          <div style={styles.inputRow}>
-            <div style={{ flex: 1 }}>
-              <label style={styles.label}>Nombres:</label>
-              <input
-                type="text"
-                value={nombres}
-                onChange={(e) => setNombres(e.target.value)}
-                placeholder="Juan"
-                required
-                style={styles.inputHalf}
-              />
-            </div>
-            <div style={{ flex: 1 }}>
-              <label style={styles.label}>Apellidos:</label>
-              <input
-                type="text"
-                value={apellidos}
-                onChange={(e) => setApellidos(e.target.value)}
-                placeholder="Pérez"
-                required
-                style={styles.inputHalf}
-              />
-            </div>
+        {/* Inputs en dos columnas */}
+        <div style={styles.inputRow}>
+          <div style={{ flex: 1 }}>
+            <label style={styles.label}>FirstName:</label>
+            <input
+              type="text"
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
+              placeholder="Jane"
+              required
+              style={styles.inputHalf}
+            />
           </div>
-
-          <div style={styles.inputRow}>
-            <div style={{ flex: 1 }}>
-              <label style={styles.label}>Correo Electrónico:</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="correo@example.com"
-                required
-                style={styles.inputHalf}
-              />
-            </div>
-            <div style={{ flex: 1 }}>
-              <label style={styles.label}>DNI:</label>
-              <input
-                type="text"
-                value={dni}
-                onChange={(e) => setDni(e.target.value)}
-                placeholder="12345678"
-                required
-                style={styles.inputHalf}
-              />
-            </div>
+          <div style={{ flex: 1 }}>
+            <label style={styles.label}>Lastname:</label>
+            <input
+              type="text"
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
+              placeholder="Doe"
+              required
+              style={styles.inputHalf}
+            />
           </div>
-
-          <div style={styles.inputRow}>
-            <div style={{ flex: 1 }}>
-              <label style={styles.label}>Fecha de Nacimiento:</label>
-              <input
-                type="date"
-                value={fechaNacimiento}
-                onChange={(e) => setFechaNacimiento(e.target.value)}
-                required
-                style={styles.inputHalf}
-              />
-            </div>
-            <div style={{ flex: 1 }}>
-              <label style={styles.label}>Sexo:</label>
-              <select
-                value={sexo}
-                onChange={(e) => setSexo(e.target.value)}
-                required
-                style={styles.inputHalf}
-              >
-                <option value="">Selecciona</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
-                <option value="Prefiero no decir">Prefiero no decir</option>
-              </select>
-            </div>
-          </div>
-
-          <div style={styles.inputRow}>
-            <div style={{ flex: 1 }}>
-              <label style={styles.label}>Dirección:</label>
-              <input
-                type="text"
-                value={direccion}
-                onChange={(e) => setDireccion(e.target.value)}
-                placeholder="Calle Ficticia 123"
-                required
-                style={styles.inputHalf}
-              />
-            </div>
-            <div style={{ flex: 1 }}>
-              <label style={styles.label}>Número de Teléfono:</label>
-              <input
-                type="tel"
-                value={telefono}
-                onChange={(e) => setTelefono(e.target.value)}
-                placeholder="987654321"
-                required
-                style={styles.inputHalf}
-              />
-            </div>
-          </div>
-
-          {/* Campos Opcionales */}
-          <div style={styles.inputRow}>
-            <div style={{ flex: 1 }}>
-              <label style={styles.label}>Seguro de Salud:</label>
-              <input
-                type="checkbox"
-                checked={seguroSalud}
-                onChange={(e) => setSeguroSalud(e.target.checked)}
-              />
-            </div>
-            <div style={{ flex: 1 }}>
-              <label style={styles.label}>Estado Civil:</label>
-              <select
-                value={estadoCivil}
-                onChange={(e) => setEstadoCivil(e.target.value)}
-                style={styles.inputHalf}
-              >
-                <option value="">Selecciona</option>
-                <option value="Soltero">Soltero</option>
-                <option value="Casado">Casado</option>
-                <option value="Divorciado">Divorciado</option>
-                <option value="Viudo">Viudo</option>
-              </select>
-            </div>
-          </div>
-
-          <div style={styles.inputRow}>
-            <div style={{ flex: 1 }}>
-              <label style={styles.label}>Tipo de Sangre:</label>
-              <select
-                value={tipoSangre}
-                onChange={(e) => setTipoSangre(e.target.value)}
-                style={styles.inputHalf}
-              >
-                <option value="">Selecciona</option>
-                <option value="A+">A+</option>
-                <option value="O+">O+</option>
-                <option value="B+">B+</option>
-                <option value="AB+">AB+</option>
-              </select>
-            </div>
-          </div>
-
-          {errorMessage && <p style={styles.errorMessage}>{errorMessage}</p>}
-          <button type="submit" style={styles.button}>
-            Registrarse
-          </button>
-        </form>
-        <div style={styles.registerContainer}>
-          <span style={styles.registerText}>¿Ya estas registrado?</span>
-          <span
-            style={styles.registerLink}
-            onClick={handleRegisterRedirect}
-          >
-            Login 
-          </span>
         </div>
+
+        <div style={styles.inputRow}>
+          <div style={{ flex: 1 }}>
+            <label style={styles.label}>Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="jane.doe@example.com"
+              required
+              style={styles.inputHalf}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label style={styles.label}>DNI:</label>
+            <input
+              type="text"
+              value={dni}
+              onChange={(e) => setDni(e.target.value)}
+              placeholder="12345678"
+              required
+              style={styles.inputHalf}
+            />
+          </div>
+        </div>
+
+        <div style={styles.inputRow}>
+          <div style={{ flex: 1 }}>
+            <label style={styles.label}>Username:</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="TheJaneDoe"
+              required
+              style={styles.inputHalf}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label style={styles.label}>Age:</label>
+            <input
+              type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              placeholder="20"
+              required
+              style={styles.inputHalf}
+            />
+          </div>
+        </div>
+
+        {errorMessage && <p style={styles.errorMessage}>{errorMessage}</p>}
+        <button type="submit" style={styles.button}>
+          Registrarse
+        </button>
+      </form>
+      <div style={styles.registerContainer}>
+        <span style={styles.registerText}>¿Ya estas registrado?</span>
+        <span
+          style={styles.registerLink}
+          onClick={handleRegisterRedirect}
+        >
+          Login 
+        </span>
       </div>
     </div>
-  );
+  </div>
+);
 }

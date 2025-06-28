@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { findUser } from '../services/UserService'
+import { UserService } from '../services/UserService'
 import logo from '../assets/logo.png';
 
 // Logica
@@ -19,7 +19,7 @@ export default function Login() {
     }
 
     try {
-      const user = await findUser(dni, username);
+      const user = await UserService.findUser(dni, username);
       if (!user) {
         navigate('/register');
         return;
